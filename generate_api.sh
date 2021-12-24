@@ -21,7 +21,10 @@ process_header() {
     # remove blank lines
     sed '/^$/d' | \
     # remove NNG_DECL since we don't need it
-    sed 's/^NNG_DECL *//g'
+    sed 's/^NNG_DECL *//g' | \
+    # prevent ImportError because of undefined symbol (undefined function)
+    # no longer needed once https://github.com/nanomsg/nng/pull/1553 got merged
+    grep -v nng_getopt_ptr
 }
 
 process_header "${prefix}/include/nng/nng.h" >> "${tmpfile}"
