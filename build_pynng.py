@@ -22,9 +22,8 @@ if sys.platform == 'win32':
     # system libraries determined to be necessary through trial and error
     libraries = ['Ws2_32', 'Advapi32']
 else:
-    objects = ['./nng/build/libnng.a', "./mbedtls/prefix/lib/libmbedtls.a",
-               "./mbedtls/prefix/lib/libmbedx509.a", "./mbedtls/prefix/lib/libmbedcrypto.a"]
-    libraries = ['pthread']
+    objects = []
+    libraries = ['pthread', 'nng']
     machine = os.uname().machine
     # this is a pretty heuristic... but let's go with it anyway.
     # it would be better to get linker information from cmake somehow.
@@ -37,7 +36,7 @@ ffibuilder.set_source(
     r""" // passed to the real C compiler,
          // contains implementation of things declared in cdef()
          #define NNG_DECL
-         #define NNG_STATIC_LIB
+         #define NNG_SHARED_LIB
          #include <nng/nng.h>
          #include <nng/protocol/bus0/bus.h>
          #include <nng/protocol/pair0/pair.h>
@@ -57,7 +56,6 @@ ffibuilder.set_source(
     libraries=libraries,
     # library_dirs=['nng/build/Debug',],
     # (more arguments like setup.py's Extension class:
-    include_dirs=['nng/include'],
     extra_objects=objects,
 )
 

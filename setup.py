@@ -156,10 +156,6 @@ tests_require = [
 ]
 
 setuptools.setup(
-    cmdclass={
-        'build_py': BuildPyCommand,
-        'build_ext': BuildExtCommand,
-    },
     name='pynng',
     version=__version__,
     author='Cody Piersall',
