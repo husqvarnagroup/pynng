@@ -595,5 +595,5 @@ int nng_tls_register(void);
 #define NNG_FLAG_ALLOC 1u // Recv to allocate receive buffer
 #define NNG_FLAG_NONBLOCK 2u // Non-blocking operations
 #define NNG_MAJOR_VERSION 1
-#define NNG_MINOR_VERSION 4
+#define NNG_MINOR_VERSION 6
 #define NNG_PATCH_VERSION 0
