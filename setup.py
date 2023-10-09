@@ -190,7 +190,7 @@ setup(
         'Topic :: Software Development :: Libraries',
         'Topic :: System :: Networking',
     ]),
-    setup_requires=['cffi', 'pytest-runner',],
+    setup_requires=['cffi', 'pytest-runner', 'ninja'],
     install_requires=['cffi', 'sniffio'],
     cffi_modules=['build_pynng.py:ffibuilder'],
     tests_require=[
