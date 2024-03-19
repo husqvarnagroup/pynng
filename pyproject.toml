@@ -72,6 +72,7 @@ requires = [
     "cmake",
     "build",
     "wheel",
+    "ninja",
 ]
 
 [tool.cibuildwheel]
