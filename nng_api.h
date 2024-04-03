@@ -15,6 +15,7 @@ typedef struct nng_socket_s {
  uint32_t id;
 } nng_socket;
 typedef int32_t nng_duration;
+typedef uint64_t nng_time;
 typedef struct nng_msg nng_msg;
 typedef struct nng_stat nng_stat;
 typedef struct nng_aio nng_aio;
@@ -80,7 +81,7 @@ enum nng_sockaddr_family {
  NNG_AF_ABSTRACT = 6
 };
 typedef struct nng_iov {
- void * iov_buf;
+ void *iov_buf;
  size_t iov_len;
 } nng_iov;
 extern void nng_fini(void);
@@ -215,6 +216,7 @@ extern void *nng_aio_get_input(nng_aio *, unsigned);
 extern int nng_aio_set_output(nng_aio *, unsigned, void *);
 extern void *nng_aio_get_output(nng_aio *, unsigned);
 extern void nng_aio_set_timeout(nng_aio *, nng_duration);
+extern void nng_aio_set_expire(nng_aio *, nng_time);
 extern int nng_aio_set_iov(nng_aio *, unsigned, const nng_iov *);
 extern bool nng_aio_begin(nng_aio *);
 extern void nng_aio_finish(nng_aio *, int);
@@ -226,9 +228,9 @@ extern void nng_msg_free(nng_msg *);
 extern int nng_msg_realloc(nng_msg *, size_t);
 extern int nng_msg_reserve(nng_msg *, size_t);
 extern size_t nng_msg_capacity(nng_msg *);
-extern void * nng_msg_header(nng_msg *);
+extern void *nng_msg_header(nng_msg *);
 extern size_t nng_msg_header_len(const nng_msg *);
-extern void * nng_msg_body(nng_msg *);
+extern void *nng_msg_body(nng_msg *);
 extern size_t nng_msg_len(const nng_msg *);
 extern int nng_msg_append(nng_msg *, const void *, size_t);
 extern int nng_msg_insert(nng_msg *, const void *, size_t);
@@ -534,8 +536,8 @@ const char *nng_tls_engine_name(void);
 const char *nng_tls_engine_description(void);
 bool nng_tls_engine_fips_mode(void);
 int nng_tls_register(void);
-#define NNG_FLAG_ALLOC 1u // Recv to allocate receive buffer
+#define NNG_FLAG_ALLOC 1u    // Recv to allocate receive buffer
 #define NNG_FLAG_NONBLOCK 2u // Non-blocking operations
 #define NNG_MAJOR_VERSION 1
-#define NNG_MINOR_VERSION 6
-#define NNG_PATCH_VERSION 0
+#define NNG_MINOR_VERSION 7
+#define NNG_PATCH_VERSION 3
