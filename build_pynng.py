@@ -23,10 +23,10 @@ if sys.platform == "win32":
     libraries = ["Ws2_32", "Advapi32", "Bcrypt"]
 # comment out this block if you want to build this with you own libraries
 # e.g.: python setup.py build_ext -I<inc_path> -L<lib_path> -l<lib>
-# elif True:
-#    incdirs = None
-#    libraries = ['pthread' 'mbedtls' 'nng']
-#    objects = None
+elif True:
+   incdirs = None
+   libraries = ["pthread", "nng"]
+   objects = None
 else:
     incdirs = ["nng/include"]
     objects = [
@@ -62,7 +62,7 @@ ffibuilder.set_source(
     r""" // passed to the real C compiler,
          // contains implementation of things declared in cdef()
          #define NNG_DECL
-         #define NNG_STATIC_LIB
+         #define NNG_SHARED_LIB
          #include <nng/nng.h>
          #include <nng/protocol/bus0/bus.h>
          #include <nng/protocol/pair0/pair.h>
