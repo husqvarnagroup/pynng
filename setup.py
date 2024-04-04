@@ -160,7 +160,7 @@ class BuildBuild(build_ext):
         """
         # dbuild.initialize_options(self)
         build_ext.initialize_options(self)
-        self.build_deps = "yes"
+        self.build_deps = False
 
     def run(self):
         """
