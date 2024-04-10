@@ -7,6 +7,8 @@ from cffi import FFI
 import os, sysconfig
 import sys
 
+PYNNG_USE_SHARED_LIBS = True if os.environ.get("PYNNG_USE_SHARED_LIBS", None) in ("YES", "yes") else False
+
 ffibuilder = FFI()
 
 if sys.platform == "win32":
@@ -27,6 +29,10 @@ if sys.platform == "win32":
 #    incdirs = None
 #    libraries = ['pthread' 'mbedtls' 'nng']
 #    objects = None
+elif PYNNG_USE_SHARED_LIBS:
+    incdirs = None
+    libraries = ["pthread", "nng", "atomic"]
+    objects = None
 else:
     incdirs = ["nng/include"]
     objects = [
@@ -56,13 +62,17 @@ else:
     ):
         libraries.append("atomic")
 
+if PYNNG_USE_SHARED_LIBS:
+    nng_lib_variant = "NNG_STATIC_LIB"
+else:
+    nng_lib_variant = "NNG_SHARED_LIB"
 
 ffibuilder.set_source(
     "pynng._nng",
-    r""" // passed to the real C compiler,
+    f""" // passed to the real C compiler,
          // contains implementation of things declared in cdef()
          #define NNG_DECL
-         #define NNG_STATIC_LIB
+         #define {nng_lib_variant}
          #include <nng/nng.h>
          #include <nng/protocol/bus0/bus.h>
          #include <nng/protocol/pair0/pair.h>

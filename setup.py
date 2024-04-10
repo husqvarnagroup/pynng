@@ -16,7 +16,7 @@ from setuptools.command.build_ext import build_ext
 WINDOWS = sys.platform == "win32"
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
-
+PYNNG_USE_SHARED_LIBS = True if os.environ.get("PYNNG_USE_SHARED_LIBS", None) in ("YES", "yes") else False
 
 def maybe_copy(src, dst):
     os.makedirs(os.path.dirname(dst), exist_ok=True)
@@ -156,8 +156,9 @@ class BuildBuild(build_ext):
         """
         Running...
         """
-        self.run_command("build_mbedtls")
-        self.run_command("build_nng")
+        if not PYNNG_USE_SHARED_LIBS:
+            self.run_command("build_mbedtls")
+            self.run_command("build_nng")
 
         build_ext.run(self)  # proceed with "normal" build steps
 
