@@ -144,9 +144,6 @@ class BuildBuild(build_ext):
     """
     Custom build command
     """
-    build_ext.user_options += [
-        ("build-deps", None, "build nng and mbedtls before building the module")
-    ]
 
     def initialize_options(self):
         """
@@ -154,15 +151,13 @@ class BuildBuild(build_ext):
         Each user option must be listed here with their default value.
         """
         build_ext.initialize_options(self)
-        self.build_deps = "yes"
 
     def run(self):
         """
         Running...
         """
-        if self.build_deps:
-            self.run_command("build_mbedtls")
-            self.run_command("build_nng")
+        self.run_command("build_mbedtls")
+        self.run_command("build_nng")
 
         build_ext.run(self)  # proceed with "normal" build steps
 
