@@ -80,12 +80,13 @@ class BuildNng(BuilderBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.git_dir = "nng"
+        # Disable linking with mbedtls for this build. NNG 1.7.3 does not properly
+        # build with a custom mbedtls build directory. We do not use TLS anyway.
         self.cmake_extra_args = [
-            "-DNNG_ENABLE_TLS=ON",
+            "-DNNG_ENABLE_TLS=OFF",
             "-DNNG_TESTS=OFF",
             "-DNNG_TOOLS=OFF",
             "-DCMAKE_BUILD_TYPE=Release",
-            "-DMBEDTLS_ROOT_DIR={}/mbedtls/prefix/".format(THIS_DIR),
         ]
 
     def finalize_build(self):
@@ -157,7 +158,6 @@ class BuildBuild(build_ext):
         Running...
         """
         if not PYNNG_USE_SHARED_LIBS:
-            self.run_command("build_mbedtls")
             self.run_command("build_nng")
 
         build_ext.run(self)  # proceed with "normal" build steps
@@ -168,7 +168,6 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     cmdclass={
-        "build_mbedtls": BuildMbedTls,
         "build_nng": BuildNng,
         "build_ext": BuildBuild,
     },

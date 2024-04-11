@@ -37,9 +37,6 @@ else:
     incdirs = ["nng/include"]
     objects = [
         "./nng/build/libnng.a",
-        "./mbedtls/prefix/lib/libmbedtls.a",
-        "./mbedtls/prefix/lib/libmbedx509.a",
-        "./mbedtls/prefix/lib/libmbedcrypto.a",
     ]
     libraries = ["pthread"]
     machine = os.uname().machine
